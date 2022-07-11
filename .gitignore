@@ -1,0 +1,18 @@
+# Ignore Mac system files
+.DS_store
+
+# Ignore all pyc files
+*.pyc
+
+# Ignore all model files
+# *.model
+
+saved_models/*
+
+# Ignore results files
+Results/*
+
+envs/traces/*
+
+# Ignore configuration files
+*.vscode
