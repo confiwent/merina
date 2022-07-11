@@ -1,2 +1,2 @@
-# merina
-Implementation of Improving Generalization for Neural Adaptive Video Streaming via Meta Reinforcement Learning - N. Kan et al. (ACM MM22)
+# MERINA
+Code for the paper "Improving Generalization for Neural Adaptive Video Streaming via Meta Reinforcement Learning" - Nuowen Kan et al. (ACM MM22)
