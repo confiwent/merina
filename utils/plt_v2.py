@@ -15,8 +15,6 @@ RESULTS_FOLDER_FHN = '../Results/test_0420/fh_noisy/'
 RESULTS_FOLDER_PUF = '../Results/test_0420/puffer/'
 RESULTS_FOLDER_PUF2 = '../Results/test_0420/puffer2/'
 RESULTS_FOLDER_FH = '../Results/test_0420/fh/'
-RESULTS_FOLDER_PWI = '../Results/test_0420/pubwifi/'
-RESULTS_FOLDER_INT = '../Results/test_0420/intern/'
 
 RESULTS_FOLDER_FCC_LOG = '../Results/test_0420/log/fcc/'
 RESULTS_FOLDER_OBE_LOG = '../Results/test_0420/log/oboe/'
@@ -26,8 +24,6 @@ RESULTS_FOLDER_FHN_LOG = '../Results/test_0420/log/fh_noisy/'
 RESULTS_FOLDER_PUF_LOG = '../Results/test_0420/log/puffer/'
 RESULTS_FOLDER_FH_LOG = '../Results/test_0420/log/fh/'
 RESULTS_FOLDER_PUF2_LOG = '../Results/test_0420/log/puffer2/'
-RESULTS_FOLDER_PWI_LOG = '../Results/test_0420/log/pubwifi/'
-RESULTS_FOLDER_INT_LOG = '../Results/test_0420/log/intern/'
 
 PIC_FOLDER = '../Results/pic/'
 NUM_BINS = 200
@@ -64,8 +60,6 @@ parser.add_argument('--tg', action='store_true', help='Use Ghent traces')
 parser.add_argument('--tn', action='store_true', help='Use FH-Noisy traces')
 parser.add_argument('--tp', action='store_true', help='Use Puffer traces')
 parser.add_argument('--tp2', action='store_true', help='Use Puffer2 traces')
-parser.add_argument('--tw', action='store_true', help='Use Wifi traces')
-parser.add_argument('--ti', action='store_true', help='Use intern traces')
 parser.add_argument('--iml', action='store_true', help='Show the results of IMRL without MI')
 parser.add_argument('--comyco', action='store_true', help='Show the results of Comyco')
 parser.add_argument('--geser', action='store_true', help='Show the results of Geser')
@@ -77,7 +71,7 @@ parser.add_argument('--mppo', action='store_true', help='Show the results of MPP
 parser.add_argument('--oracle', action='store_true', help='Show the results of MPC-Oracle')
 parser.add_argument('--bola', action='store_true', help='Show the results of BOLA')
 parser.add_argument('--adp', action='store_true', help='Show the results of adaptation')
-parser.add_argument('--fugo', action='store_true', help='Show the results of FUGO')
+parser.add_argument('--fugo', action='store_true', help='Show the results of FUGU')
 parser.add_argument('--bayes', action='store_true', help='Show the results of BayesMPC')
 
 
@@ -87,6 +81,7 @@ def save_csv(data, file_name):
 
 def main():
 
+	# args = parser.parse_args(args = ['--tfh', '--imrl', '--pensieve', '--comyco'])
 	args = parser.parse_args()
 	if args.tf:
 		results_folder = RESULTS_FOLDER_FCC_LOG if args.log else RESULTS_FOLDER_FCC
@@ -112,12 +107,6 @@ def main():
 	elif args.tp2:
 		results_folder = RESULTS_FOLDER_PUF2_LOG if args.log else RESULTS_FOLDER_PUF2
 		save_folder = 'log/puffer2/' if args.log else 'puffer2/'
-	elif args.tw:
-		results_folder = RESULTS_FOLDER_PWI_LOG if args.log else RESULTS_FOLDER_PWI
-		save_folder = 'log/pubwifi/' if args.log else 'pubwifi/'
-	elif args.ti:
-		results_folder = RESULTS_FOLDER_INT_LOG if args.log else RESULTS_FOLDER_INT
-		save_folder = 'log/intern/' if args.log else 'intern/'
 	else:
 		print("Please choose the throughput data traces!!!")
 

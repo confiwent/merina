@@ -8,10 +8,8 @@ import torch.optim as optim
 from config.merina import args_merina
 # from algos.train_ppo_v5 import train_ppo_v5
 # from algos.train_dppo import train_dppo_pure
-from algos.train_im_v7 import train_iml_v7
 from algos.train_im_v4_light import train_iml_v4
 from algos.test_v5_light import test
-from algos.train_ppo_v7 import train_ppo_v7
 from algos.train_ppo_v6_light import train_ppo_v6
 import envs.env_log as env
 import envs.env_oracle_v3 as env_oracle
@@ -38,8 +36,6 @@ TEST_LOG_FILE_GHT = './Results/test/ghent/'
 TEST_LOG_FILE_FHN = './Results/test/fh_noisy/'
 TEST_LOG_FILE_PUF = './Results/test/puffer/'
 TEST_LOG_FILE_PUF2 = './Results/test/puffer2/'
-TEST_LOG_FILE_PWI = './Results/test/pubwifi/'
-TEST_LOG_FILE_INT = './Results/test/intern/'
 
 TEST_LOG_FILE_OBE_LOG = './Results/test/log/oboe/'
 TEST_LOG_FILE_3GP_LOG = './Results/test/log/3gp/'
@@ -49,8 +45,6 @@ TEST_LOG_FILE_GHT_LOG = './Results/test/log/ghent/' # 4g
 TEST_LOG_FILE_FHN_LOG = './Results/test/log/fh_noisy/'
 TEST_LOG_FILE_PUF_LOG = './Results/test/log/puffer/'
 TEST_LOG_FILE_PUF2_LOG = './Results/test/log/puffer2/'
-TEST_LOG_FILE_PWI_LOG = './Results/test/log/pubwifi/'
-TEST_LOG_FILE_INT_LOG = './Results/test/log/intern/'
 
 # TEST_TRACES_FCC = './envs/traces/pre_webget_1608/test_traces/'
 TEST_TRACES_FCC = './envs/traces/fcc_ori/test_traces/'
@@ -61,8 +55,6 @@ TEST_TRACES_FHN = './envs/traces/test_traces_noisy/'
 TEST_TRACES_FH = './envs/traces/pre_webget_1608/test_traces/'
 TEST_TRACES_PUF = './envs/traces/puffer_211017/test_traces/'
 TEST_TRACES_PUF2 = './envs/traces/puffer_220218/test_traces/'
-TEST_TRACES_PWI = './envs/traces/p_wifi/'
-TEST_TRACES_INT = './envs/traces/inter/'
 
 
 # use FCC and HSDPA datasets to jointly train the models  
@@ -140,12 +132,6 @@ def get_test_traces(args):
     elif args.tfh:
         log_save_dir = TEST_LOG_FILE_FH_LOG if args.log else TEST_LOG_FILE_FH
         test_traces = TEST_TRACES_FH
-    elif args.tw:
-        log_save_dir = TEST_LOG_FILE_PWI_LOG if args.log else TEST_LOG_FILE_PWI
-        test_traces = TEST_TRACES_PWI
-    elif args.ti:
-        log_save_dir = TEST_LOG_FILE_INT_LOG if args.log else TEST_LOG_FILE_INT
-        test_traces = TEST_TRACES_INT
     else:
         # print("Please choose the throughput data traces!!!")
         log_save_dir = TEST_LOG_FILE_FCC_LOG if args.log else TEST_LOG_FILE_FCC

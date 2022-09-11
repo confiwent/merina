@@ -48,7 +48,5 @@ def get_args(rest_args):
     parser.add_argument('--tn', action='store_true', help='Use FH-Noisy traces')
     parser.add_argument('--tp', action='store_true', help='Use Puffer traces')
     parser.add_argument('--tp2', action='store_true', help='Use Puffer2 traces')
-    parser.add_argument('--tw', action='store_true', help='Use Wifi traces')
-    parser.add_argument('--ti', action='store_true', help='Use intern traces')
 
     return parser.parse_args(rest_args)
