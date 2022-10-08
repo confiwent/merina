@@ -83,7 +83,7 @@ class BetaVAE(torch.nn.Module):
         FE_cnn_1_ = FE_cnn_1.view(-1, self.num_flat_features(FE_cnn_1))
 
         FE_cnn_2 = self.FeatureExactor_CNN(fut_inputs_2_)
-        FE_cnn_2_ = FE_cnn_1.view(-1, self.num_flat_features(FE_cnn_2))
+        FE_cnn_2_ = FE_cnn_2.view(-1, self.num_flat_features(FE_cnn_2))
 
         hidden_inputs = torch.cat((FE_cnn_1_, FE_cnn_2_), dim = 1)
 
