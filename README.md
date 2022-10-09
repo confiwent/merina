@@ -33,7 +33,7 @@ __Improvements to the codes and methods (including a journal version) are curren
 ## Usage
 Type ```python main.py -h``` for the instruction in the terminal, or read the description of ArgumentParser part.
 
-> For example, you could choose the work mode by the argument ```--test``` [evaluate the model], ```--adp``` [run the meta adaptation procedure] or use the default setting [run the meta training procedure]; 
+> For example, you could choose work mode by selecting the argument ```--test``` [evaluate the model], ```--adp``` [run the meta adaptation procedure] or use the default setting [run the meta training procedure]; 
 > 
 > The default QoE metric is the linear form and you can change it to logrithmic form by add the argument ```--log```;
 >
