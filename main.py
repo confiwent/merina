@@ -5,8 +5,6 @@ import argparse
 import torch
 import torch.optim as optim
 
-# from algos.train_ppo_v5 import train_ppo_v5
-# from algos.train_dppo import train_dppo_pure
 from algos.train_im_v4 import train_iml_v4
 from algos.test_v5 import test
 from algos.train_ppo_v6 import train_ppo_v6
@@ -28,12 +26,12 @@ IMITATION_TRAIN_EPOCH = 1050
 
 ## 3GP and OBE is the dataset of HSDPA and Oboe, respectively.
 
-TEST_LOG_FILE_FCC = './Results/test/fcc/'
-TEST_LOG_FILE_OBE = './Results/test/oboe/'
-TEST_LOG_FILE_3GP = './Results/test/3gp/'
-TEST_LOG_FILE_FH = './Results/test/fh/'
-TEST_LOG_FILE_PUF = './Results/test/puffer/'
-TEST_LOG_FILE_PUF2 = './Results/test/puffer2/'
+TEST_LOG_FILE_FCC = './Results/test/lin/fcc/'
+TEST_LOG_FILE_OBE = './Results/test/lin/oboe/'
+TEST_LOG_FILE_3GP = './Results/test/lin/3gp/'
+TEST_LOG_FILE_FH = './Results/test/lin/fh/'
+TEST_LOG_FILE_PUF = './Results/test/lin/puffer/'
+TEST_LOG_FILE_PUF2 = './Results/test/lin/puffer2/'
 
 TEST_LOG_FILE_OBE_LOG = './Results/test/log/oboe/'
 TEST_LOG_FILE_3GP_LOG = './Results/test/log/3gp/'
@@ -58,30 +56,15 @@ ADP_TRAIN_TRACES = './envs/traces/puffer_211017/cooked_traces/'
 ADP_VALID_TRACES = './envs/traces/puffer_211017/test_traces/'
 
 SUMMARY_DIR = './Results/sim'
-MODEL_DIR = './saved_models'
+MODEL_DIR = './models'
 
 #lin 
-TEST_MODEL_ACT_MRL = './saved_models/0325/policy_imrl_1680.model'
-TEST_MODEL_VAE_MRL = './saved_models/0325/VAE_imrl_1680.model'
-
-# TEST_MODEL_ACT_MRL = './saved_models/0416/adp/policy_lin_adpt_1170.model'
-# TEST_MODEL_VAE_MRL = './saved_models/0416/adp/VAE_lin_adpt_1170.model'
-
-# TEST_MODEL_ACT_MRL = './saved_models/mits/lin/policy_mitest_lin_860.model'
-# TEST_MODEL_VAE_MRL = './saved_models/mits/lin/VAE_mitest_lin_860.model'
+TEST_MODEL_ACT_LIN = './models/pretrain_policy_lin.model'
+TEST_MODEL_VAE_LIN = './models/pretrain_vae_lin.model'
 
 #log
-TEST_MODEL_ACT_MRL_LOG = './saved_models/0404/log/policy_imrl_log_440.model'
-TEST_MODEL_VAE_MRL_LOG = './saved_models/0404/log/VAE_imrl_log_440.model'
-
-# TEST_MODEL_ACT_MRL_LOG = './saved_models/0406/adp/policy_log_adpt_370.model'
-# TEST_MODEL_VAE_MRL_LOG = './saved_models/0406/adp/VAE_log_adpt_370.model'
-
-# TEST_MODEL_ACT_MRL_LOG = './Results/sim/imrl_log/policy_imrl_log_1020.model'
-# TEST_MODEL_VAE_MRL_LOG = './Results/sim/imrl_log/VAE_imrl_log_1020.model'
-
-# TEST_MODEL_ACT_MRL_LOG = './saved_models/mits/policy_mitest_480.model'
-# TEST_MODEL_VAE_MRL_LOG = './saved_models/mits/VAE_mitest_480.model'
+TEST_MODEL_ACT_LOG = './models/pretrain_policy_log.model'
+TEST_MODEL_VAE_LOG = './models/pretrain_vae_log.model'
 
 parser = argparse.ArgumentParser(description='MRL-based ABR')
 parser.add_argument('--test', action='store_true', help='Evaluate only')
@@ -155,9 +138,9 @@ def main():
     # determine the QoE metric \
     rebuff_p = REBUF_PENALTY_log if args.log else REBUF_PENALTY_lin
     
-    test_model_ = [TEST_MODEL_ACT_MRL_LOG, TEST_MODEL_VAE_MRL_LOG] if args.log \
-                        else [TEST_MODEL_ACT_MRL, TEST_MODEL_VAE_MRL] 
-    video_size_file = './envs/video_size/Mao/video_size_' #video = 'Avengers'
+    test_model_ = [TEST_MODEL_ACT_LOG, TEST_MODEL_VAE_LOG] if args.log \
+                        else [TEST_MODEL_ACT_LIN, TEST_MODEL_VAE_LIN] 
+    video_size_file = './envs/video_size/Mao/video_size_' #video size file
     # video_size_file = './envs/video_size/Avengers/video_size_'
 
     all_cooked_time, all_cooked_bw, all_file_names = load_trace.load_trace(test_traces)

@@ -12,11 +12,12 @@ _Anaconda is suggested to be installed to manage the test environments._
 - Linux or macOS
 - Python >=3.6
 - Pytorch >= 1.6.0
+- numpy
+- tqdm
+- matplotlib
 - CPU or NVIDIA GPU + CUDA CuDNN
 
-The _MERINA_ should be tested with python 3.6, pytorch 1.6.0, numpy, matplotlib, and pandas.
-
-- Install PyTorch. Note that the command of PyTorch intallation depends on the actual compute platform of your own computer, and you can choose appropriate version following the [guide page](https://pytorch.org/get-started/locally/). For example, if you have intalled `CUDA 10.2`, you can intall PyTorch with the latest version by running this Command:
+Install PyTorch. Note that the command of PyTorch intallation depends on the actual compute platform of your own computer, and you can choose appropriate version following the [guide page](https://pytorch.org/get-started/locally/). For example, if you have intalled `CUDA 10.2`, you can intall PyTorch with the latest version by running this Command:
 
     ```
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
@@ -39,149 +40,50 @@ Type ```python main.py -h``` for the instruction in the terminal, or read the de
 > The network throughput dataset must be chosen in the __test__ mode. The datasets shown in the paper are available here and you can select them following the mappings below:
 > 
 > ```[--tf FCC traces] [--tfh FCC and HSDPA traces] [--t3g HSDPA traces] [--to Oboe traces] [--tp Puffer-Oct.17-21 traces] [--tp2 Puffer-Feb.18-22 traces]```
+>
+> Also, you can rename the lable of the results by ```[--name "yourname"]```
+
+## Create the Results folders
+``` 
+    |--models
+    |--Results
+       |--sim
+       |--test
+          |--lin
+          |--log
+    |--utils
+    |--main.py
+```
 
 ## Runnig an experiment
+To evalute _MERINA_ on the in-distribution throughput traces with the $QoE_{log}$ metric from the paper, run
 
+- FCC traces 
+```
+python main.py --test --tf --log
+``` 
 
+- or HSDPA traces
+```
+python main.py --test --t3g --log
+```
 
-### Results of Fig.2
-To replicate the results in Fig.2, you should follow the steps below:
-1. Create two results folders
+The results can be plot by running
+```
+cd utils
+python plt_v2.py
+```
+_Note that you should set the label of results to be drawn by changing the labels in the line 44 and line 45 of plt_v2.py_
 
-    ```
-    mkdir ./results_lin
-    mkdir ./results_lin/cb_fcc ./results_lin/cb_HSDPA
-    ```
-2. Generate the results of _BayesMPC_ and RobustMPC in Fig.2(a) and (b).
+## Try to train a model from scratch
 
-    ```python
-    conda activate bayes
-    ## for fig.2(a)
-    python bbp_mpc_v3.py --cb --HSDPA
-    python mpc_v2.py --cb --HSDPA
-    ## for fig.2(b)
-    python bbp_mpc_v3.py --cb --FCC
-    python mpc_v2.py --cb --FCC
-    ```
-3. Plot the results in Fig.2(a).
+To train a model using the FCC and HSDPA training dataset with the $QoE_{log}$ metric from the paper, just run
+```
+python main.py --log
+```
+The exploration trajectories will be shown in ```./Results/sim/merina/log_record``` and the valid results are in ```./Results/sim/merina/log_test```; In addition, you can monitor the training process using tensorboard, run
+```
+tensorboard --logdir=./Results/sim
+```
 
-    ```python
-    ## for fig.2(a)
-    python plot_results_fig2.py --a
-    ## for fig.2(b)
-    python plot_results_fig2.py --b
-    ```
-
-<!-- ![fig2a](./pic/random_traces_prediction_norway.pdf)
-![fig2b](./pic/random_traces_prediction_fcc.pdf) -->
-
-### Results of Figs. 3, 4
-There are two different QoE metrics: $QoE_{lin}$ and $QoE_{log}$ and two different throughput datasets: FCC and HSDPA. For comparison, all $6$ baseline algorithms should be tested in these settings and the results shown in Figs.3, 4 in Section.3 of the paper can be replicated by following commands:
-1. Create the results folders for different QoE metrics and different throughput datasets.
-
-    ```python
-    ## create folder for QoE metric QoE_lin
-    mkdir ./results_lin
-    ## create folder for different datasets with the QoE_lin metric
-    mkdir ./results_lin/fcc ./results_lin/HSDPA
-    ## same for QoE metric QoE_log
-    mkdir ./results_log
-    mkdir ./results_log/fcc ./results_log/HSDPA
-    ```
-
-2. Test _BayesMPC_ for different QoE metrics and for different throughput datasets.
-
-    ```python
-    conda activate bayes
-    python bbp_mpc_v3.py --lin --HSDPA
-    python bbp_mpc_v3.py --lin --FCC
-    python bbp_mpc_v3.py --log --HSDPA
-    python bbp_mpc_v3.py --log --FCC
-    ## deactivate the virtual environment
-    conda deactivate
-    ```
-
-3. Test Pensieve for different QoE metrics and for different throughput datasets.
-
-    ```python
-    conda activate pensieve
-    python rl_no_training.py --lin --HSDPA
-    python rl_no_training.py --lin --FCC
-    python rl_no_training.py --log --HSDPA
-    python rl_no_training.py --log --FCC
-    ## deactivate the virtual environment
-    conda deactivate
-    ```
-
-4. Test other baseline algorithms in ```pensieve``` virtual environment. Note that the following commands are illustrated for testing RobustMPC, and other baseline algorithms can be tested by just replacing the file name ```mpc_v2.py``` with the corresponding file name (```Bola_v1.py```, ```bb.py```, ```rb.py```).
-
-    ```python
-    conda activate pensieve
-    python mpc_v2.py --lin --HSDPA
-    python mpc_v2.py --lin --FCC
-    python mpc_v2.py --log --HSDPA
-    python mpc_v2.py --log --FCC
-    ## deactivate the virtual environment
-    conda deactivate
-    ```
-
-5. __Plot the results__: The results in Figs. 3 and 4 for different QoE metrics and different datasets can be plotted by the following commands:
-
-    ```python
-    conda activate pensieve
-    # for results tested with QoE_lin and HSDPA dataset in Fig. 3 and 4(a)
-    python plot_results_fig34.py --lin --HSDPA
-    # for results tested with QoE_log and HSDPA dataset in Fig. 3 and 4(b)
-    python plot_results_fig34.py --log --HSDPA
-    # for results tested with QoE_lin and FCC dataset in Fig. 3 and 4(c)
-    python plot_results_fig34.py --lin --FCC
-    # for results tested with QoE_log and FCC dataset in Fig. 3 and 4(d)
-    python plot_results_fig34.py --log --FCC
-    ## deactivate the virtual environment
-    conda deactivate
-    ```
-
-### Results of Fig.6
-The procedure for plotting Figure 6 is similar to the procedure for Figure 3, 4. The only difference is test throughput dataset for baseline algorithms. The results of Fig.6 are tested with Oboe dataset.
-
-- Test _BayesMPC_ with Oboe dataset.
-
-    ```python
-    conda activate bayes
-    python bbp_mpc_v3.py --lin --Oboe
-    python bbp_mpc_v3.py --log --Oboe
-    ## deactivate the virtual environment
-    conda deactivate
-    ```
-
-- Test Pensieve with Oboe dataset. 
-
-    ```python
-    conda activate pensieve
-    python rl_no_training.py --lin --Oboe
-    python rl_no_training.py --log --Oboe
-    ## deactivate the virtual environment
-    conda deactivate
-    ```
-
-- Test other algorithms with Oboe dataset. Note that the following commands are illustrated for testing RobustMPC, and other baseline algorithms can be tested by just replacing the file name ```mpc_v2.py``` with the corresponding file name (```Bola_v1.py```, ```bb.py```, ```rb.py```).
-
-    ```python
-    conda activate pensieve
-    python mpc_v2.py --lin --Oboe
-    python mpc_v2.py --log --Oboe
-    ## deactivate the virtual environment
-    conda deactivate
-    ```
-
-- __Plot the results__: The results in Fig.6 for different QoE metrics with Oboe datasets can be plotted by the following commands:
-
-    ```python
-    conda activate pensieve
-    # for results tested with QoE_lin and Oboe dataset in Fig. 6(a)
-    python plot_results_fig34.py --lin --Oboe
-    # for results tested with QoE_log and Oboe dataset in Fig. 6(b)
-    python plot_results_fig34.py --log --Oboe
-    ## deactivate the virtual environment
-    conda deactivate
-    ```
+Then, wait patiently and mannually interrupt the training (```Ctrl + C``` in the terminal) when the valid results converges. Cross your fingers!!!

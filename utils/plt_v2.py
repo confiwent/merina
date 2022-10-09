@@ -7,23 +7,19 @@ from scipy import stats, integrate
 import seaborn as sns
 sns.set_style("white")
 
-RESULTS_FOLDER_FCC = '../Results/test_0420/fcc/'
-RESULTS_FOLDER_OBE = '../Results/test_0420/oboe/'
-RESULTS_FOLDER_3GP = '../Results/test_0420/3gp/'
-RESULTS_FOLDER_GHT = '../Results/test_0420/ghent/'
-RESULTS_FOLDER_FHN = '../Results/test_0420/fh_noisy/'
-RESULTS_FOLDER_PUF = '../Results/test_0420/puffer/'
-RESULTS_FOLDER_PUF2 = '../Results/test_0420/puffer2/'
-RESULTS_FOLDER_FH = '../Results/test_0420/fh/'
+RESULTS_FOLDER_FCC = '../Results/test/lin/fcc/'
+RESULTS_FOLDER_OBE = '../Results/test/lin/oboe/'
+RESULTS_FOLDER_3GP = '../Results/test/lin/3gp/'
+RESULTS_FOLDER_PUF = '../Results/test/lin/puffer/'
+RESULTS_FOLDER_PUF2 = '../Results/test/lin/puffer2/'
+RESULTS_FOLDER_FH = '../Results/test/lin/fh/'
 
-RESULTS_FOLDER_FCC_LOG = '../Results/test_0420/log/fcc/'
-RESULTS_FOLDER_OBE_LOG = '../Results/test_0420/log/oboe/'
-RESULTS_FOLDER_3GP_LOG = '../Results/test_0420/log/3gp/'
-RESULTS_FOLDER_GHT_LOG = '../Results/test_0420/log/ghent/'
-RESULTS_FOLDER_FHN_LOG = '../Results/test_0420/log/fh_noisy/'
-RESULTS_FOLDER_PUF_LOG = '../Results/test_0420/log/puffer/'
-RESULTS_FOLDER_FH_LOG = '../Results/test_0420/log/fh/'
-RESULTS_FOLDER_PUF2_LOG = '../Results/test_0420/log/puffer2/'
+RESULTS_FOLDER_FCC_LOG = '../Results/test/log/fcc/'
+RESULTS_FOLDER_OBE_LOG = '../Results/test/log/oboe/'
+RESULTS_FOLDER_3GP_LOG = '../Results/test/log/3gp/'
+RESULTS_FOLDER_PUF_LOG = '../Results/test/log/puffer/'
+RESULTS_FOLDER_FH_LOG = '../Results/test/log/fh/'
+RESULTS_FOLDER_PUF2_LOG = '../Results/test/log/puffer2/'
 
 PIC_FOLDER = '../Results/pic/'
 NUM_BINS = 200
@@ -45,8 +41,8 @@ PROPOSED_SCHEME = 'test_mpc'
 PROPOSED_SCHEME_NAME = 'RobustMPC'
 # PROPOSED_SCHEME = 'test_Oraclempc'
 # PROPOSED_SCHEME_NAME = 'Oracle-8'
-SCHEMES = ['test_cmc', 'test_iml', 'test_7iml', 'test_geser'] # 'test_ppo', 'test_geser', , 'test_8im',, , 'test_ppo', 'test_nceppo', 'test_rl', 'test_Oraclempc', 'test_bmpc'  'test_bola', 'test_mpc' , 'test_7im'
-METHOD_LABEL = ['Comyco', "IML-5", "IML-7", 'GeSER'] # 'PPO', 'GeSER', 'Comyco', , , 'PPO','NCEPPO' 'Oracle', 'GeSER' , 'Penseive' 'BOLA', 'RobustMPC', 'BOLA', , 'Comyco'
+SCHEMES = ['test_cmc', 'test_merina', 'test_bola'] # 
+METHOD_LABEL = ['Comyco', 'MERINA', 'BOLA'] # 'Penseive' 'BOLA', 'RobustMPC', 'BOLA', , 'Comyco'
 LINE_STY = ['--', ':', '-.', '--', ':', '-.', '-', '-']
 
 
@@ -56,23 +52,14 @@ parser.add_argument('--tf', action='store_true', help='Use FCC traces')
 parser.add_argument('--tfh', action='store_true', help='Use FCCand3GP traces')
 parser.add_argument('--t3g', action='store_true', help='Use 3GP traces')
 parser.add_argument('--to', action='store_true', help='Use Oboe traces')
-parser.add_argument('--tg', action='store_true', help='Use Ghent traces')
-parser.add_argument('--tn', action='store_true', help='Use FH-Noisy traces')
 parser.add_argument('--tp', action='store_true', help='Use Puffer traces')
 parser.add_argument('--tp2', action='store_true', help='Use Puffer2 traces')
-parser.add_argument('--iml', action='store_true', help='Show the results of IMRL without MI')
 parser.add_argument('--comyco', action='store_true', help='Show the results of Comyco')
-parser.add_argument('--geser', action='store_true', help='Show the results of Geser')
 parser.add_argument('--mpc', action='store_true', help='Show the results of RobustMPC')
 parser.add_argument('--pensieve', action='store_true', help='Show the results of Penseive')
-parser.add_argument('--imrl', action='store_true', help='Show the results of IMRL')
-parser.add_argument('--ppo', action='store_true', help='Show the results of PPO')
-parser.add_argument('--mppo', action='store_true', help='Show the results of MPPO')
-parser.add_argument('--oracle', action='store_true', help='Show the results of MPC-Oracle')
+parser.add_argument('--imrl', action='store_true', help='Show the results of MERINA')
 parser.add_argument('--bola', action='store_true', help='Show the results of BOLA')
 parser.add_argument('--adp', action='store_true', help='Show the results of adaptation')
-parser.add_argument('--fugo', action='store_true', help='Show the results of FUGU')
-parser.add_argument('--bayes', action='store_true', help='Show the results of BayesMPC')
 
 
 def save_csv(data, file_name):
@@ -95,12 +82,6 @@ def main():
 	elif args.to:
 		results_folder = RESULTS_FOLDER_OBE_LOG if args.log else RESULTS_FOLDER_OBE
 		save_folder = 'log/oboe/' if args.log else 'oboe/'
-	elif args.tg:
-		results_folder = RESULTS_FOLDER_GHT_LOG if args.log else RESULTS_FOLDER_GHT
-		save_folder = 'log/ghent/' if args.log else 'ghent/'
-	elif args.tn:
-		results_folder = RESULTS_FOLDER_FHN_LOG if args.log else RESULTS_FOLDER_FHN
-		save_folder = 'log/fh_noisy/' if args.log else 'fh_noisy/'
 	elif args.tp:
 		results_folder = RESULTS_FOLDER_PUF_LOG if args.log else RESULTS_FOLDER_PUF
 		save_folder = 'log/puffer/' if args.log else 'puffer/'
@@ -113,33 +94,18 @@ def main():
 	schemes_show = []
 	schemes_label = []
 
-	if args.iml:
-		schemes_show.append('test_mits')
-		schemes_label.append('MITS')
 	if args.bola:
 		schemes_show.append('test_bola')
 		schemes_label.append('BOLA')
-	if args.geser:
-		schemes_show.append('test_geser')
-		schemes_label.append('GeSER')
 	if args.mpc:
 		schemes_show.append('test_mpc')
 		schemes_label.append('RobustMPC')
 	if args.pensieve:
 		schemes_show.append('test_a3c')
 		schemes_label.append('Pensieve')
-	if args.oracle:
-		schemes_show.append('test_orampc')
-		schemes_label.append('MPC-Oracle')
 	if args.comyco:
 		schemes_show.append('test_cmc')
 		schemes_label.append('Comyco')
-	if args.mppo:
-		schemes_show.append('test_mppo')
-		schemes_label.append('MPPO')
-	if args.adp:
-		schemes_show.append('test_adp')
-		schemes_label.append('IMRL-adaptation')
 	if args.fugo:
 		schemes_show.append('test_fugo')
 		schemes_label.append('Fugu')
@@ -147,7 +113,7 @@ def main():
 		schemes_show.append('test_bayes')
 		schemes_label.append('BayesMPC')
 	if args.imrl:
-		schemes_show.append('test_imrl')
+		schemes_show.append('test_merina')
 		schemes_label.append('MERINA')
 
 
@@ -456,100 +422,6 @@ def main():
 	# plt.grid()
 	# plt.savefig(PIC_FOLDER + save_folder + "CDF_QoE_IM.pdf")
 	plt.show()
-
-	#################################################################
-	# Rebuffer reward_improvement
-	#################################################################
-
-	# fig = plt.figure()
-	# ax = fig.add_subplot(111)
-
-	# for scheme in comparison_schemes:
-	# 	cdf_values = {}
-	# 	values, base = np.histogram(rebuf_improvement[scheme], bins=NUM_BINS)
-	# 	cumulative = np.cumsum(values)/float(len(rebuf_improvement[scheme]))
-	# 	cumulative = np.insert(cumulative, 0, 0)
-	# 	# ax.plot(base[:-1], cumulative)
-	# 	cdf_values['value'] = base
-	# 	cdf_values['cumulative'] = cumulative
-	# 	cdf_data_frame = pd.DataFrame(cdf_values)
-	# 	sns.lineplot(x="value", y="cumulative", data=cdf_data_frame)	
-
-	# # colors = [COLOR_MAP(i) for i in np.linspace(0, 1, len(ax.lines))]
-	# for i,j in enumerate(ax.lines):
-	# 	# j.set_color(colors[i])	
-	# 	plt.setp(j, linestyle = LINE_STY[i+1], linewidth = 2.6) #, marker = HATCH[i]
-
-	# comparison_schemes_names = [schemes_label[i] for i in range(len(schemes_label))]
-	# comparison_schemes_names.remove(PROPOSED_SCHEME_NAME)
-
-	# legend = ax.legend(comparison_schemes_names, loc='best', fontsize = 18)
-	# 	# legend = ax.legend(SCHEMES_REW, loc=4, fontsize = 14)
-	# frame = legend.get_frame()
-	# frame.set_alpha(0)
-	# frame.set_facecolor('none')
-	# plt.ylabel('CDF (Perc. of sessions)', fontsize = 22)
-	# plt.xlabel("Difference in Rebuf. penalty", fontsize = 22)
-	# # plt.xlabel("Avg. QoE improvement", fontsize = 18)
-	# plt.xticks(fontsize = 20)
-	# plt.yticks(fontsize = 20)
-	# plt.ylim([0.0,1.0])
-	# # plt.xlim(-0.2, 1)
-	# plt.vlines(0, 0, 1, colors='k',linestyles='solid')
-	# ax.spines['top'].set_visible(False)
-	# ax.spines['right'].set_visible(False)
-	# ax.spines['bottom'].set_linewidth(2.5)
-	# ax.spines['left'].set_linewidth(2.5)
-	# # plt.title('HSDPA and FCC') # HSDPA , FCC , Oboe
-	# # plt.grid()
-	# plt.show()
-
-
-	# # ---- ---- ---- ----
-	# # check each trace
-	# # ---- ---- ---- ----
-
-	# for l in time_all[schemes_show[0]]:
-	# 	schemes_check = True
-	# 	for scheme in schemes_show:
-	# 		if l not in time_all[scheme] or len(time_all[scheme][l]) < VIDEO_LEN:
-	# 			schemes_check = False
-	# 			break
-	# 	if schemes_check:
-	# 		fig = plt.figure()
-
-	# 		ax = fig.add_subplot(311)
-	# 		for scheme in schemes_show:
-	# 			ax.plot(time_all[scheme][l][:VIDEO_LEN], bit_rate_all[scheme][l][:VIDEO_LEN])
-	# 		colors = [COLOR_MAP(i) for i in np.linspace(0, 1, len(ax.lines))]
-	# 		for i,j in enumerate(ax.lines):
-	# 			j.set_color(colors[i])	
-	# 		plt.title(l)
-	# 		plt.ylabel('bit rate selection (kbps)')
-
-	# 		ax = fig.add_subplot(312)
-	# 		for scheme in schemes_show:
-	# 			ax.plot(time_all[scheme][l][:VIDEO_LEN], buff_all[scheme][l][:VIDEO_LEN])
-	# 		colors = [COLOR_MAP(i) for i in np.linspace(0, 1, len(ax.lines))]
-	# 		for i,j in enumerate(ax.lines):
-	# 			j.set_color(colors[i])	
-	# 		plt.ylabel('buffer size (sec)')
-
-	# 		ax = fig.add_subplot(313)
-	# 		for scheme in schemes_show:
-	# 			ax.plot(time_all[scheme][l][:VIDEO_LEN], bw_all[scheme][l][:VIDEO_LEN])
-	# 		colors = [COLOR_MAP(i) for i in np.linspace(0, 1, len(ax.lines))]
-	# 		for i,j in enumerate(ax.lines):
-	# 			j.set_color(colors[i])	
-	# 		plt.ylabel('bandwidth (mbps)')
-	# 		plt.xlabel('time (sec)')
-
-	# 		SCHEMES_REW = []
-	# 		for scheme in schemes_show:
-	# 			SCHEMES_REW.append(scheme + ': ' + str(np.sum(raw_reward_all[scheme][l][1:VIDEO_LEN])))
-
-	# 		ax.legend(SCHEMES_REW, loc=9, bbox_to_anchor=(0.5, -0.1), ncol=int(np.ceil(len(schemes_show) / 2.0)))
-	# 		plt.show()
 
 
 if __name__ == '__main__':
