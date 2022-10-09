@@ -26,12 +26,12 @@ SMOOTH_PENALTY = 1
 
 IMITATION_TRAIN_EPOCH = 1050
 
+## 3GP and OBE is the dataset of HSDPA and Oboe, respectively.
+
 TEST_LOG_FILE_FCC = './Results/test/fcc/'
 TEST_LOG_FILE_OBE = './Results/test/oboe/'
 TEST_LOG_FILE_3GP = './Results/test/3gp/'
 TEST_LOG_FILE_FH = './Results/test/fh/'
-TEST_LOG_FILE_GHT = './Results/test/ghent/'
-TEST_LOG_FILE_FHN = './Results/test/fh_noisy/'
 TEST_LOG_FILE_PUF = './Results/test/puffer/'
 TEST_LOG_FILE_PUF2 = './Results/test/puffer2/'
 
@@ -39,25 +39,20 @@ TEST_LOG_FILE_OBE_LOG = './Results/test/log/oboe/'
 TEST_LOG_FILE_3GP_LOG = './Results/test/log/3gp/'
 TEST_LOG_FILE_FCC_LOG = './Results/test/log/fcc/'
 TEST_LOG_FILE_FH_LOG = './Results/test/log/fh/'
-TEST_LOG_FILE_GHT_LOG = './Results/test/log/ghent/' # 4g
-TEST_LOG_FILE_FHN_LOG = './Results/test/log/fh_noisy/'
 TEST_LOG_FILE_PUF_LOG = './Results/test/log/puffer/'
 TEST_LOG_FILE_PUF2_LOG = './Results/test/log/puffer2/'
 
-# TEST_TRACES_FCC = './envs/traces/pre_webget_1608/test_traces/'
 TEST_TRACES_FCC = './envs/traces/fcc_ori/test_traces/'
 TEST_TRACES_OBE = './envs/traces/traces_oboe/'
 TEST_TRACES_3GP = './envs/traces/traces_3gp/'
-TEST_TRACES_GHT = './envs/traces/test_traces_4g2/'
-TEST_TRACES_FHN = './envs/traces/test_traces_noisy/'
 TEST_TRACES_FH = './envs/traces/pre_webget_1608/test_traces/'
 TEST_TRACES_PUF = './envs/traces/puffer_211017/test_traces/'
 TEST_TRACES_PUF2 = './envs/traces/puffer_220218/test_traces/'
 
 
 # use FCC and HSDPA datasets to jointly train the models  
-TRAIN_TRACES = './envs/traces/pre_webget_1608/cooked_traces/'
-VALID_TRACES = './envs/traces/pre_webget_1608/test_traces/'
+TRAIN_TRACES = './envs/traces/fcc_and_hsdpa/cooked_traces/'
+VALID_TRACES = './envs/traces/fcc_and_hsdpa/test_traces/'
 
 ADP_TRAIN_TRACES = './envs/traces/puffer_211017/cooked_traces/'
 ADP_VALID_TRACES = './envs/traces/puffer_211017/test_traces/'
@@ -134,12 +129,6 @@ def main():
     elif args.to:
         log_save_dir = TEST_LOG_FILE_OBE_LOG if args.log else TEST_LOG_FILE_OBE
         test_traces = TEST_TRACES_OBE
-    elif args.tg:
-        log_save_dir = TEST_LOG_FILE_GHT_LOG if args.log else TEST_LOG_FILE_GHT
-        test_traces = TEST_TRACES_GHT
-    elif args.tn:
-        log_save_dir = TEST_LOG_FILE_FHN_LOG if args.log else TEST_LOG_FILE_FHN
-        test_traces = TEST_TRACES_FHN
     elif args.tp:
         log_save_dir = TEST_LOG_FILE_PUF_LOG if args.log else TEST_LOG_FILE_PUF
         test_traces = TEST_TRACES_PUF
