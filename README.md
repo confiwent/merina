@@ -87,3 +87,7 @@ tensorboard --logdir=./Results/sim
 ```
 
 Then, wait patiently and mannually interrupt the training (```Ctrl + C``` in the terminal) when the valid results converges. Cross your fingers!!!
+
+## Comments
+
+- The script ```imrl_light.py``` is a variant that employs lightweight neural networks to build the VAE and policy network. Because it is an unfinished version, some problems may arise if you use it to train the models.

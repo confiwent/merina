@@ -8,9 +8,9 @@ from torch import nn
 from torch.nn import functional as F
 from torch.autograd import Variable
 
-USE_CUDA = torch.cuda.is_available()
-dtype = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
-dlongtype = torch.cuda.LongTensor if torch.cuda.is_available() else torch.LongTensor
+# USE_CUDA = torch.cuda.is_available()
+# dtype = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
+# dlongtype = torch.cuda.LongTensor if torch.cuda.is_available() else torch.LongTensor
 
 class BetaVAE(torch.nn.Module):
     def __init__(self,
@@ -32,8 +32,8 @@ class BetaVAE(torch.nn.Module):
         self.kld_beta = beta
         self.kld_lambda = delta
         self.gamma = gamma
-        self.prior_mu = torch.zeros(latent_dim).type(dtype)
-        self.prior_logvar = torch.zeros(latent_dim).type(dtype)
+        self.prior_mu = torch.zeros(latent_dim)
+        self.prior_logvar = torch.zeros(latent_dim)
         # self.loss_type = loss_type
         # self.C_max = torch.Tensor([max_capacity])
         # self.C_stop_iter = Capacity_max_iter
@@ -41,10 +41,12 @@ class BetaVAE(torch.nn.Module):
         # Build Encoder
         # self.encoder = nn.GRU(input_size = self.sequence_channels, hidden_size = hidden_size, num_layers = layer_num_gru, batch_first = True)
 
-        self.FeatureExactor_CNN = nn.Sequential(
+        self.FeatureExactor_1 = nn.Sequential(
                                     nn.Conv1d(1, self.FE_cnn_channels, 4), # for available chunk sizes 6 version  L_out = 6 - (4-1) -1 + 1 = 3
-                                    nn.LeakyReLU()
-        )
+                                    nn.LeakyReLU())
+        self.FeatureExactor_2 = nn.Sequential(
+                                    nn.Conv1d(1, self.FE_cnn_channels, 4), # for available chunk sizes 6 version  L_out = 6 - (4-1) -1 + 1 = 3
+                                    nn.LeakyReLU())
 
         modules = []
         if hidden_dims is None:
@@ -71,7 +73,7 @@ class BetaVAE(torch.nn.Module):
         :return: (Tensor) List of latent codes
         """
 
-        fut_inputs_1_ = input[:, :, -1]
+        fut_inputs_1_ = input[:, :, 1:2]
         fut_inputs_1_ = fut_inputs_1_.view(-1, self.num_flat_features(fut_inputs_1_))
         fut_inputs_1_ = torch.unsqueeze(fut_inputs_1_, 1)
 
@@ -79,13 +81,13 @@ class BetaVAE(torch.nn.Module):
         fut_inputs_2_ = fut_inputs_2_.view(-1, self.num_flat_features(fut_inputs_2_))
         fut_inputs_2_ = torch.unsqueeze(fut_inputs_2_, 1)
 
-        FE_cnn_1 = self.FeatureExactor_CNN(fut_inputs_1_)
-        FE_cnn_1_ = FE_cnn_1.view(-1, self.num_flat_features(FE_cnn_1))
+        FE_cnn_1 = self.FeatureExactor_1(fut_inputs_1_)
+        FE_cnn_1 = FE_cnn_1.view(-1, self.num_flat_features(FE_cnn_1))
 
-        FE_cnn_2 = self.FeatureExactor_CNN(fut_inputs_2_)
-        FE_cnn_2_ = FE_cnn_2.view(-1, self.num_flat_features(FE_cnn_2))
+        FE_cnn_2 = self.FeatureExactor_2(fut_inputs_2_)
+        FE_cnn_2 = FE_cnn_2.view(-1, self.num_flat_features(FE_cnn_2))
 
-        hidden_inputs = torch.cat((FE_cnn_1_, FE_cnn_2_), dim = 1)
+        hidden_inputs = torch.cat((FE_cnn_1, FE_cnn_2), dim = 1)
 
         # result = self.mlp(hidden_inputs)
 
@@ -101,6 +103,8 @@ class BetaVAE(torch.nn.Module):
     def get_latent(self, input):
         mu, log_var = self.encode(input)
         z = self.reparameterize(mu, log_var)
+        del mu
+        del log_var
         return z
 
     # def decode(self, z, his_input):
@@ -164,30 +168,3 @@ class BetaVAE(torch.nn.Module):
     def update_prior(self, mu_new, log_var_new):
         self.prior_mu = mu_new
         self.prior_logvar = log_var_new
-
-    # def sample(self,
-    #            num_samples:int,
-    #            current_device: int, **kwargs) -> Tensor:
-    #     """
-    #     Samples from the latent space and return the corresponding
-    #     image space map.
-    #     :param num_samples: (Int) Number of samples
-    #     :param current_device: (Int) Device to run the model
-    #     :return: (Tensor)
-    #     """
-    #     z = torch.randn(num_samples,
-    #                     self.latent_dim)
-
-    #     z = z.to(current_device)
-
-    #     samples = self.decode(z)
-    #     return samples
-
-    # def generate(self, x: Tensor, **kwargs) -> Tensor:
-    #     """
-    #     Given an input image x, returns the reconstructed image
-    #     :param x: (Tensor) [B x C x H x W]
-    #     :return: (Tensor) [B x C x H x W]
-    #     """
-
-    #     return self.forward(x)[0]

@@ -23,12 +23,27 @@ class Actor(torch.nn.Module):
         if self.hidden_layers is None:
             self.hidden_layers = [128]
 
-        self.FeatureExactor_MLP = nn.Sequential(
+        self.FeatureExactor_MLP_1 = nn.Sequential(
                                     nn.Linear(self.FE_mlp_input, self.FE_output),
                                     nn.LeakyReLU()
         )
 
-        self.FeatureExactor_TD = nn.Sequential(
+        self.FeatureExactor_MLP_2 = nn.Sequential(
+                                    nn.Linear(self.FE_mlp_input, self.FE_output),
+                                    nn.LeakyReLU()
+        )
+
+        self.FeatureExactor_MLP_3 = nn.Sequential(
+                                    nn.Linear(self.FE_mlp_input, self.FE_output),
+                                    nn.LeakyReLU()
+        )
+
+        self.FeatureExactor_TD_1 = nn.Sequential(
+                                    nn.Linear(self.his_dim, self.FE_output),
+                                    nn.LeakyReLU()
+        )
+
+        self.FeatureExactor_TD_2 = nn.Sequential(
                                     nn.Linear(self.his_dim, self.FE_output),
                                     nn.LeakyReLU()
         )
@@ -62,6 +77,7 @@ class Actor(torch.nn.Module):
                         nn.Linear(in_channels_, self.a_dim),
                         nn.Softmax(dim=1))
 
+    # @profile
     def forward(self, states_input, latent_input):
         ## inital inputs preparation
         # past throughput
@@ -99,24 +115,26 @@ class Actor(torch.nn.Module):
         FE_mlp_latent_ = FE_mlp_latent_.view(-1, self.num_flat_features(FE_mlp_latent_))
 
         # remain infos (128 for each)
-        FE_mlp_info_1 = self.FeatureExactor_MLP(buffer_size_)
+        FE_mlp_info_1 = self.FeatureExactor_MLP_1(buffer_size_)
         FE_mlp_info_1 =  FE_mlp_info_1.view(-1, self.num_flat_features(FE_mlp_info_1))
 
-        FE_mlp_info_2 = self.FeatureExactor_MLP(quality_level_)
+        FE_mlp_info_2 = self.FeatureExactor_MLP_2(quality_level_)
         FE_mlp_info_2 =  FE_mlp_info_2.view(-1, self.num_flat_features(FE_mlp_info_2))
 
-        FE_mlp_info_3 = self.FeatureExactor_MLP(chunk_remain_)
+        FE_mlp_info_3 = self.FeatureExactor_MLP_3(chunk_remain_)
         FE_mlp_info_3 =  FE_mlp_info_3.view(-1, self.num_flat_features(FE_mlp_info_3))
 
-        FE_mlp_info_t = self.FeatureExactor_TD(thp_info_)
+        FE_mlp_info_t = self.FeatureExactor_TD_1(thp_info_)
         FE_mlp_info_t = FE_mlp_info_t.view(-1, self.num_flat_features(FE_mlp_info_t))
 
-        FE_mlp_info_d = self.FeatureExactor_TD(download_time_)
+        FE_mlp_info_d = self.FeatureExactor_TD_2(download_time_)
         FE_mlp_info_d = FE_mlp_info_d.view(-1, self.num_flat_features(FE_mlp_info_d))
 
         ## Aggregation
 
-        hidden_inputs = torch.cat((FE_cnn_1, FE_mlp_latent_, FE_mlp_info_1, FE_mlp_info_2, FE_mlp_info_3, FE_mlp_info_t, FE_mlp_info_d), dim = 1)
+        hidden_inputs = torch.cat((FE_cnn_1, FE_mlp_latent_, FE_mlp_info_1,\
+                                     FE_mlp_info_2, FE_mlp_info_3, FE_mlp_info_t, \
+                                        FE_mlp_info_d), dim = 1)
         
         hiddens = self.mlp(hidden_inputs)
 
@@ -146,12 +164,27 @@ class Critic(torch.nn.Module):
         if self.hidden_layers is None:
             self.hidden_layers = [128]
 
-        self.FeatureExactor_MLP = nn.Sequential(
+        self.FeatureExactor_MLP_1 = nn.Sequential(
                                     nn.Linear(self.FE_mlp_input, self.FE_output),
                                     nn.LeakyReLU()
         )
 
-        self.FeatureExactor_TD = nn.Sequential(
+        self.FeatureExactor_MLP_2 = nn.Sequential(
+                                    nn.Linear(self.FE_mlp_input, self.FE_output),
+                                    nn.LeakyReLU()
+        )
+
+        self.FeatureExactor_MLP_3 = nn.Sequential(
+                                    nn.Linear(self.FE_mlp_input, self.FE_output),
+                                    nn.LeakyReLU()
+        )
+
+        self.FeatureExactor_TD_1 = nn.Sequential(
+                                    nn.Linear(self.his_dim, self.FE_output),
+                                    nn.LeakyReLU()
+        )
+
+        self.FeatureExactor_TD_2 = nn.Sequential(
                                     nn.Linear(self.his_dim, self.FE_output),
                                     nn.LeakyReLU()
         )
@@ -220,24 +253,26 @@ class Critic(torch.nn.Module):
         FE_mlp_latent_ = FE_mlp_latent_.view(-1, self.num_flat_features(FE_mlp_latent_))
 
         # remain infos (128 for each)
-        FE_mlp_info_1 = self.FeatureExactor_MLP(buffer_size_)
+        FE_mlp_info_1 = self.FeatureExactor_MLP_1(buffer_size_)
         FE_mlp_info_1 =  FE_mlp_info_1.view(-1, self.num_flat_features(FE_mlp_info_1))
 
-        FE_mlp_info_2 = self.FeatureExactor_MLP(quality_level_)
+        FE_mlp_info_2 = self.FeatureExactor_MLP_2(quality_level_)
         FE_mlp_info_2 =  FE_mlp_info_2.view(-1, self.num_flat_features(FE_mlp_info_2))
 
-        FE_mlp_info_3 = self.FeatureExactor_MLP(chunk_remain_)
+        FE_mlp_info_3 = self.FeatureExactor_MLP_3(chunk_remain_)
         FE_mlp_info_3 =  FE_mlp_info_3.view(-1, self.num_flat_features(FE_mlp_info_3))
 
-        FE_mlp_info_t = self.FeatureExactor_TD(thp_info_)
+        FE_mlp_info_t = self.FeatureExactor_TD_1(thp_info_)
         FE_mlp_info_t = FE_mlp_info_t.view(-1, self.num_flat_features(FE_mlp_info_t))
 
-        FE_mlp_info_d = self.FeatureExactor_TD(download_time_)
+        FE_mlp_info_d = self.FeatureExactor_TD_2(download_time_)
         FE_mlp_info_d = FE_mlp_info_d.view(-1, self.num_flat_features(FE_mlp_info_d))
 
         ## Aggregation
 
-        hidden_inputs = torch.cat((FE_cnn_1, FE_mlp_latent_, FE_mlp_info_1, FE_mlp_info_2, FE_mlp_info_3, FE_mlp_info_t, FE_mlp_info_d), dim = 1)
+        hidden_inputs = torch.cat((FE_cnn_1, FE_mlp_latent_, FE_mlp_info_1,\
+                                     FE_mlp_info_2, FE_mlp_info_3, FE_mlp_info_t, \
+                                        FE_mlp_info_d), dim = 1)
         
         hiddens = self.mlp(hidden_inputs)
 
