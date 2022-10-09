@@ -19,9 +19,9 @@ _Anaconda is suggested to be installed to manage the test environments._
 
 Install PyTorch. Note that the command of PyTorch intallation depends on the actual compute platform of your own computer, and you can choose appropriate version following the [guide page](https://pytorch.org/get-started/locally/). For example, if you have intalled `CUDA 10.2`, you can intall PyTorch with the latest version by running this Command:
 
-    ```
+```
     conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
-    ```
+```
 
 ## Overview
 The main training loop for _MERINA_ can be found in ```main.py```, the trained models are in ```models/``` and the corresponding meta RL algorithms in ```algos/```. Besides, ```envs/``` includes emulator codes which simulate the environment of ABR virtual player. Some of baseline aglorithms are located in ```baselines/```.
