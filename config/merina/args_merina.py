@@ -44,8 +44,6 @@ def get_args(rest_args):
     parser.add_argument('--tfh', action='store_true', help='Use FCC_and_3GP traces')
     parser.add_argument('--to', action='store_true', help='Use Oboe traces')
     parser.add_argument('--t3g', action='store_true', help='Use 3GP traces')
-    parser.add_argument('--tg', action='store_true', help='Use Ghent traces')
-    parser.add_argument('--tn', action='store_true', help='Use FH-Noisy traces')
     parser.add_argument('--tp', action='store_true', help='Use Puffer traces')
     parser.add_argument('--tp2', action='store_true', help='Use Puffer2 traces')
 

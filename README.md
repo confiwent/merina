@@ -46,12 +46,13 @@ Type ```python main.py -h``` for the instruction in the terminal, or read the de
 ## Create the Results folders
 ``` 
     |--models
-    |--Results
+    |--Results  # !!
        |--sim
        |--test
           |--lin
           |--log
     |--utils
+       |--log_results # !!
     |--main.py
 ```
 

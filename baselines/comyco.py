@@ -31,38 +31,26 @@ RAND_RANGE = 1000
 NN_MODEL_LIN = '../saved_models/comyco/lin/nn_model_ep_580.ckpt' # for lin 
 NN_MODEL_LOG = '../saved_models/comyco/log/nn_model_ep_680.ckpt' # for log
 
-LOG_FILE_OBE = '../Results/test/oboe/log_test_cmc'
-LOG_FILE_3GP = '../Results/test/3gp/log_test_cmc'
-LOG_FILE_FCC = '../Results/test/fcc/log_test_cmc'
-LOG_FILE_FH = '../Results/test/fh/log_test_cmc'
-LOG_FILE_GHT = '../Results/test/ghent/log_test_cmc'
-LOG_FILE_FHN = '../Results/test/fh_noisy/log_test_cmc'
-LOG_FILE_PUF = '../Results/test/puffer/log_test_cmc'
-LOG_FILE_PUF2 = '../Results/test/puffer2/log_test_cmc'
-LOG_FILE_PWI = '../Results/test/pubwifi/log_test_cmc'
-LOG_FILE_INT = '../Results/test/intern/log_test_cmc'
+LOG_FILE_OBE = '../Results/test/lin/oboe/log_test_cmc'
+LOG_FILE_3GP = '../Results/test/lin/3gp/log_test_cmc'
+LOG_FILE_FCC = '../Results/test/lin/fcc/log_test_cmc'
+LOG_FILE_FH = '../Results/test/lin/fh/log_test_cmc'
+LOG_FILE_PUF = '../Results/test/lin/puffer/log_test_cmc'
+LOG_FILE_PUF2 = '../Results/test/lin/puffer2/log_test_cmc'
 
 LOG_FILE_OBE_LOG = '../Results/test/log/oboe/log_test_cmc'
 LOG_FILE_3GP_LOG = '../Results/test/log/3gp/log_test_cmc'
 LOG_FILE_FCC_LOG = '../Results/test/log/fcc/log_test_cmc'
 LOG_FILE_FH_LOG = '../Results/test/log/fh/log_test_cmc'
-LOG_FILE_GHT_LOG = '../Results/test/log/ghent/log_test_cmc'
-LOG_FILE_FHN_LOG = '../Results/test/log/fh_noisy/log_test_cmc'
 LOG_FILE_PUF_LOG = '../Results/test/log/puffer/log_test_cmc'
 LOG_FILE_PUF2_LOG = '../Results/test/log/puffer2/log_test_cmc'
-LOG_FILE_PWI_LOG = '../Results/test/log/pubwifi/log_test_cmc'
-LOG_FILE_INT_LOG = '../Results/test/log/intern/log_test_cmc'
 
 TEST_TRACES_FCC = '../envs/traces/fcc_ori/test_traces/'
 TEST_TRACES_OBE = '../envs/traces/traces_oboe/'
 TEST_TRACES_3GP = '../envs/traces/traces_3gp/'
-TEST_TRACES_GHT = '../envs/traces/test_traces_4g2/'
-TEST_TRACES_FHN = '../envs/traces/test_traces_noisy/'
 TEST_TRACES_FH = '../envs/traces/pre_webget_1608/test_traces/'
 TEST_TRACES_PUF = '../envs/traces/puffer_211017/test_traces/'
 TEST_TRACES_PUF2 = '../envs/traces/puffer_220218/test_traces/'
-TEST_TRACES_PWI = '../envs/traces/p_wifi/'
-TEST_TRACES_INT = '../envs/traces/inter/'
 
 parser = argparse.ArgumentParser(description='Comyco-MM21')
 parser.add_argument('--log', action='store_true', help='Use logarithmic form QoE metric')
@@ -70,12 +58,8 @@ parser.add_argument('--tf', action='store_true', help='Use FCC traces')
 parser.add_argument('--tfh', action='store_true', help='Use FCC&3GP traces')
 parser.add_argument('--to', action='store_true', help='Use Oboe traces')
 parser.add_argument('--t3g', action='store_true', help='Use 3GP traces')
-parser.add_argument('--tg', action='store_true', help='Use Ghent traces')
-parser.add_argument('--tn', action='store_true', help='Use FH-Noisy traces')
 parser.add_argument('--tp', action='store_true', help='Use Puffer traces')
 parser.add_argument('--tp2', action='store_true', help='Use Puffer2 traces')
-parser.add_argument('--tw', action='store_true', help='Use Wifi traces')
-parser.add_argument('--ti', action='store_true', help='Use intern traces')
 
 def main():
 
@@ -101,24 +85,12 @@ def main():
     elif args.t3g:
         test_traces = TEST_TRACES_3GP
         log_file_init = LOG_FILE_3GP_LOG if args.log else LOG_FILE_3GP
-    elif args.tg:
-        test_traces = TEST_TRACES_GHT
-        log_file_init = LOG_FILE_GHT_LOG if args.log else LOG_FILE_GHT
-    elif args.tn:
-        test_traces = TEST_TRACES_FHN
-        log_file_init = LOG_FILE_FHN_LOG if args.log else LOG_FILE_FHN
     elif args.tp:
         test_traces = TEST_TRACES_PUF
         log_file_init = LOG_FILE_PUF_LOG if args.log else LOG_FILE_PUF
     elif args.tp2:
         test_traces = TEST_TRACES_PUF2
         log_file_init = LOG_FILE_PUF2_LOG if args.log else LOG_FILE_PUF2
-    elif args.tw:
-        test_traces = TEST_TRACES_PWI
-        log_file_init = LOG_FILE_PWI_LOG if args.log else LOG_FILE_PWI
-    elif args.ti:
-        test_traces = TEST_TRACES_INT
-        log_file_init = LOG_FILE_INT_LOG if args.log else LOG_FILE_INT
     
     all_cooked_time, all_cooked_bw, all_file_names = load_trace.load_trace(test_traces)
     test_env = env.Environment(all_cooked_time=all_cooked_time,

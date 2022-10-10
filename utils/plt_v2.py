@@ -60,6 +60,8 @@ parser.add_argument('--pensieve', action='store_true', help='Show the results of
 parser.add_argument('--imrl', action='store_true', help='Show the results of MERINA')
 parser.add_argument('--bola', action='store_true', help='Show the results of BOLA')
 parser.add_argument('--adp', action='store_true', help='Show the results of adaptation')
+parser.add_argument('--fugu', action='store_true', help='Show the results of FUGU')
+parser.add_argument('--bayes', action='store_true', help='Show the results of BayesMPC')
 
 
 def save_csv(data, file_name):
@@ -69,7 +71,7 @@ def save_csv(data, file_name):
 def main():
 
 	# args = parser.parse_args(args = ['--tfh', '--imrl', '--pensieve', '--comyco'])
-	args = parser.parse_args()
+	args = parser.parse_args(args = ['--tp', '--imrl', '--bola', '--mpc'])
 	if args.tf:
 		results_folder = RESULTS_FOLDER_FCC_LOG if args.log else RESULTS_FOLDER_FCC
 		save_folder = 'log/fcc/' if args.log else 'fcc/'
@@ -106,14 +108,14 @@ def main():
 	if args.comyco:
 		schemes_show.append('test_cmc')
 		schemes_label.append('Comyco')
-	if args.fugo:
+	if args.fugu:
 		schemes_show.append('test_fugo')
 		schemes_label.append('Fugu')
 	if args.bayes:
 		schemes_show.append('test_bayes')
 		schemes_label.append('BayesMPC')
 	if args.imrl:
-		schemes_show.append('test_merina')
+		schemes_show.append('test_imrl')
 		schemes_label.append('MERINA')
 
 
@@ -314,8 +316,8 @@ def main():
 	
 	plt.ylabel('total reward')
 	plt.xlabel('trace index')
-	if not os.path.exists(PIC_FOLDER + save_folder):
-		os.mkdir(PIC_FOLDER + save_folder)
+	# if not os.path.exists(PIC_FOLDER + save_folder):
+	# 	os.mkdir(PIC_FOLDER + save_folder)
 	# plt.savefig(PIC_FOLDER + save_folder + "avg_QoE.pdf")
 	plt.show()
 
