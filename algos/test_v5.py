@@ -106,8 +106,9 @@ def evaluation(actor_net, vae_net, log_path_ini, test_env, \
             with torch.no_grad():
                 latent = vae_net.get_latent(ob_).detach()
                 prob = actor_net.forward(state_, latent).detach()
-            action = prob.multinomial(num_samples=1).detach()
-            bit_rate = int(action.squeeze().cpu().numpy())
+            # action = prob.multinomial(num_samples=1).detach()
+            # bit_rate = int(action.squeeze().cpu().numpy())
+            bit_rate = int(torch.argmax(prob).squeeze().cpu().numpy())
             
             if end_of_video:
                 ob = np.zeros((vae_in_channels, c_len)) 
