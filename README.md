@@ -12,8 +12,9 @@ _Anaconda is suggested to be installed to manage the test environments._
 - Linux or macOS
 - Python >=3.6
 - Pytorch >= 1.6.0
-- numpy
+- numpy, pandas
 - tqdm
+- seaborn
 - matplotlib
 - CPU or NVIDIA GPU + CUDA CuDNN
 
