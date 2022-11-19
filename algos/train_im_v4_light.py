@@ -18,7 +18,6 @@ from torch.utils.tensorboard import SummaryWriter
 # from .agent_il_v4 import IML_agent
 from .AC_net_v6_light import Actor
 from .beta_vae_v6_light import BetaVAE
-from .vae_gru_v6_light import GRU_encoder
 from .MPC_expert_v6 import ABRExpert
 from .test_v5_light import valid
 from .replay_memory import ReplayMemory

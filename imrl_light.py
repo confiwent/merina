@@ -12,7 +12,6 @@ from algos.train_im_v4_light import train_iml_v4
 from algos.test_v5_light import test
 from algos.train_ppo_v6_light import train_ppo_v6
 import envs.env_log as env
-import envs.env_oracle_v3 as env_oracle
 import envs.fixed_env_log as env_test
 from envs import load_trace
 
@@ -224,7 +223,8 @@ def run_train(args, rebuff_p, video_size_file):
                         TOTAL_CHUNK_NUM, VIDEO_BIT_RATE, 
                         1, rebuff_p, SMOOTH_PENALTY, 0)
 
-    im_train_env = env_oracle.Environment(
+    all_cooked_time, all_cooked_bw, all_file_names = load_trace.load_trace(Train_traces)
+    im_train_env = env.Environment(
                             all_cooked_time=all_cooked_time, 
                             all_cooked_bw=all_cooked_bw, 
                             video_size_file= video_size_file
@@ -233,7 +233,7 @@ def run_train(args, rebuff_p, video_size_file):
                     TOTAL_CHUNK_NUM, VIDEO_BIT_RATE, 
                     1, rebuff_p, SMOOTH_PENALTY, 0)
 
-    all_cooked_time, all_cooked_bw, all_file_names = load_trace.load_trace(Train_traces)
+    
     train_env = env.Environment(
                             all_cooked_time=all_cooked_time, 
                             all_cooked_bw=all_cooked_bw, 
