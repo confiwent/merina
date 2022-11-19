@@ -12,9 +12,6 @@ DRAIN_BUFFER_SLEEP_TIME = 500.0  # millisec
 PACKET_PAYLOAD_PORTION = 0.95
 LINK_RTT = 80  # millisec
 PACKET_SIZE = 1500  # bytes
-# NOISE_LOW = 0.3
-# NOISE_HIGH = 1.7
-# VIDEO_SIZE_FILE = './video_size/ori/video_size_'
 
 
 class Environment:
