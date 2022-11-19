@@ -55,7 +55,6 @@ TEST_TRACES_FH = './envs/traces/pre_webget_1608/test_traces/'
 TEST_TRACES_PUF = './envs/traces/puffer_211017/test_traces/'
 TEST_TRACES_PUF2 = './envs/traces/puffer_220218/test_traces/'
 
-
 # use FCC and HSDPA datasets to jointly train the models  
 TRAIN_TRACES = './envs/traces/pre_webget_1608/cooked_traces/'
 VALID_TRACES = './envs/traces/pre_webget_1608/test_traces/'
@@ -70,27 +69,9 @@ MODEL_DIR = './saved_models'
 TEST_MODEL_ACT_MRL = './Results/sim/merina_lin2/policy_merina_lin2_200.model'
 TEST_MODEL_VAE_MRL = './Results/sim/merina_lin2/VAE_merina_lin2_200.model'
 
-# TEST_MODEL_ACT_MRL = './saved_models/0325/policy_imrl_1680.model'
-# TEST_MODEL_VAE_MRL = './saved_models/0325/VAE_imrl_1680.model'
-
-# TEST_MODEL_ACT_MRL = './saved_models/0416/adp/policy_lin_adpt_1170.model'
-# TEST_MODEL_VAE_MRL = './saved_models/0416/adp/VAE_lin_adpt_1170.model'
-
-# TEST_MODEL_ACT_MRL = './saved_models/mits/lin/policy_mitest_lin_860.model'
-# TEST_MODEL_VAE_MRL = './saved_models/mits/lin/VAE_mitest_lin_860.model'
-
 #log
 TEST_MODEL_ACT_MRL_LOG = './saved_models/0404/log/policy_imrl_log_440.model'
 TEST_MODEL_VAE_MRL_LOG = './saved_models/0404/log/VAE_imrl_log_440.model'
-
-# TEST_MODEL_ACT_MRL_LOG = './saved_models/0406/adp/policy_log_adpt_370.model'
-# TEST_MODEL_VAE_MRL_LOG = './saved_models/0406/adp/VAE_log_adpt_370.model'
-
-# TEST_MODEL_ACT_MRL_LOG = './Results/sim/imrl_log/policy_imrl_log_1020.model'
-# TEST_MODEL_VAE_MRL_LOG = './Results/sim/imrl_log/VAE_imrl_log_1020.model'
-
-# TEST_MODEL_ACT_MRL_LOG = './saved_models/mits/policy_mitest_480.model'
-# TEST_MODEL_VAE_MRL_LOG = './saved_models/mits/VAE_mitest_480.model'
 
 def main():
     parser = argparse.ArgumentParser()
