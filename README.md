@@ -75,7 +75,6 @@ Plot a example result
 cd utils
 python plt_v2.py --log --merina --bola --mpc
 ```
-_Note that you should set the label of results to be drawn by changing the labels in the line 44 and line 45 of plt_v2.py_
 
 ## Try to train a model from scratch
 
