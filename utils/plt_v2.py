@@ -69,8 +69,8 @@ def save_csv(data, file_name):
 
 def main():
 
-	# args = parser.parse_args(args = ['--tfh', '--imrl', '--pensieve', '--comyco'])
-	args = parser.parse_args(args = ['--tp', '--imrl', '--bola', '--mpc'])
+	args = parser.parse_args()
+	# args = parser.parse_args(args = ['--tf', '--imrl', '--bola', '--mpc'])
 	if args.tf:
 		results_folder = RESULTS_FOLDER_FCC_LOG if args.log else RESULTS_FOLDER_FCC
 		save_folder = 'log/fcc/' if args.log else 'fcc/'
