@@ -70,10 +70,10 @@ python main.py --test --tf --log
 python main.py --test --t3g --log
 ```
 
-The results can be plot by running
+Plot a example result
 ```
 cd utils
-python plt_v2.py
+python plt_v2.py --log --merina --bola --mpc
 ```
 _Note that you should set the label of results to be drawn by changing the labels in the line 44 and line 45 of plt_v2.py_
 
