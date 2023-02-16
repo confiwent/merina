@@ -185,16 +185,9 @@ def main():
         torch.save(model_actor_para, model_actor_save_path)
         torch.save(model_vae_para, model_vae_save_path)
 
-        # DEBUG    
-        # model_vae_save_path = './saved_models/imrl/VAE_imrl_550.model'
-        # model_actor_save_path = './saved_models/imrl/Policy_imrl_550.model'
-        # model_vae_save_path = './saved_models/imrl_log/VAE_imrl_log_1050.model'
-        # model_actor_save_path = './saved_models/imrl_log/Policy_imrl_log_1050.model'
         if args.adp:
-            # model_actor_save_path = './saved_models/0404/log/policy_imrl_log_440.model'
-            # model_vae_save_path = './saved_models/0404/log/VAE_imrl_log_440.model'
-            model_actor_save_path = './saved_models/0325/policy_imrl_1680.model'
-            model_vae_save_path = './saved_models/0325/VAE_imrl_1680.model'
+            model_actor_save_path = './models/pretrain_policy.model'
+            model_vae_save_path = './pretrain_vae.model'
 
         # RL part
         model_vae_para = torch.load(model_vae_save_path)

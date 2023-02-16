@@ -38,10 +38,8 @@ METRIC = 'log'
 NORM = False #True 
 PROPOSED_SCHEME = 'test_mpc'
 PROPOSED_SCHEME_NAME = 'RobustMPC'
-# PROPOSED_SCHEME = 'test_Oraclempc'
-# PROPOSED_SCHEME_NAME = 'Oracle-8'
-SCHEMES = ['test_cmc', 'test_merina', 'test_bola'] # 
-METHOD_LABEL = ['Comyco', 'MERINA', 'BOLA'] # 'Penseive' 'BOLA', 'RobustMPC', 'BOLA', , 'Comyco'
+# SCHEMES = ['test_cmc', 'test_merina', 'test_bola'] # 
+# METHOD_LABEL = ['Comyco', 'MERINA', 'BOLA'] # 'Penseive' 'BOLA', 'RobustMPC', 'BOLA', , 'Comyco'
 LINE_STY = ['--', ':', '-.', '--', ':', '-.', '-', '-']
 
 
@@ -70,7 +68,7 @@ def save_csv(data, file_name):
 def main():
 
 	args = parser.parse_args()
-	# args = parser.parse_args(args = ['--tf', '--imrl', '--bola', '--mpc'])
+	# args = parser.parse_args(args = ['--tf', '--merina', '--bola', '--mpc'])
 	if args.tf:
 		results_folder = RESULTS_FOLDER_FCC_LOG if args.log else RESULTS_FOLDER_FCC
 		save_folder = 'log/fcc/' if args.log else 'fcc/'
@@ -108,13 +106,13 @@ def main():
 		schemes_show.append('test_cmc')
 		schemes_label.append('Comyco')
 	if args.fugu:
-		schemes_show.append('test_fugo')
+		schemes_show.append('test_fugu')
 		schemes_label.append('Fugu')
 	if args.bayes:
 		schemes_show.append('test_bayes')
 		schemes_label.append('BayesMPC')
 	if args.imrl:
-		schemes_show.append('test_imrl')
+		schemes_show.append('test_merina')
 		schemes_label.append('MERINA')
 
 
