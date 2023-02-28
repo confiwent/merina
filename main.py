@@ -171,24 +171,24 @@ def main():
         train_env = env.Environment(all_cooked_time=all_cooked_time, all_cooked_bw=all_cooked_bw, video_size_file= video_size_file)
         train_env.set_env_info(S_INFO, S_LEN, C_LEN, TOTAL_CHUNK_NUM, VIDEO_BIT_RATE, 1, rebuff_p, SMOOTH_PENALTY, 0)
 
-        model_actor_para, model_vae_para = train_iml_v4(IMITATION_TRAIN_EPOCH, train_env, valid_env, args, add_str, log_dir_path)
-
-        # ##===== save models in the First stage
-        model_save_dir = MODEL_DIR + '/' + add_str
-        if not os.path.exists(model_save_dir):
-            os.mkdir(model_save_dir)
-        # command = 'rm ' + SUMMARY_DIR + add_str + '/*'5
-        # os.system(command)
-        model_actor_save_path = model_save_dir + "/%s_%s_%d.model" %(str('Policy'), add_str, int(IMITATION_TRAIN_EPOCH))
-        model_vae_save_path = model_save_dir + "/%s_%s_%d.model" %(str('VAE'), add_str, int(IMITATION_TRAIN_EPOCH))
-        if os.path.exists(model_actor_save_path): os.system('rm ' + model_actor_save_path)
-        if os.path.exists(model_vae_save_path): os.system('rm ' + model_vae_save_path)
-        torch.save(model_actor_para, model_actor_save_path)
-        torch.save(model_vae_para, model_vae_save_path)
-
         if args.adp:
             model_actor_save_path = './models/pretrain_policy_log.model'
             model_vae_save_path = './models/pretrain_vae_log.model'
+        else:
+            model_actor_para, model_vae_para = train_iml_v4(IMITATION_TRAIN_EPOCH, train_env, valid_env, args, add_str, log_dir_path)
+
+            # ##===== save models in the First stage
+            model_save_dir = MODEL_DIR + '/' + add_str
+            if not os.path.exists(model_save_dir):
+                os.mkdir(model_save_dir)
+            # command = 'rm ' + SUMMARY_DIR + add_str + '/*'5
+            # os.system(command)
+            model_actor_save_path = model_save_dir + "/%s_%s_%d.model" %(str('Policy'), add_str, int(IMITATION_TRAIN_EPOCH))
+            model_vae_save_path = model_save_dir + "/%s_%s_%d.model" %(str('VAE'), add_str, int(IMITATION_TRAIN_EPOCH))
+            if os.path.exists(model_actor_save_path): os.system('rm ' + model_actor_save_path)
+            if os.path.exists(model_vae_save_path): os.system('rm ' + model_vae_save_path)
+            torch.save(model_actor_para, model_actor_save_path)
+            torch.save(model_vae_para, model_vae_save_path)
 
         # RL part
         model_vae_para = torch.load(model_vae_save_path)

@@ -61,6 +61,13 @@ def train_ppo_v6(model_actor_para, model_vae_para, train_env, valid_env, \
         torch.manual_seed(RANDOM_SEED)
         br_dim = len(bitrate_versions)
 
+        # print hyperparameters
+        test_log_file.write('Hyper_p: ')
+        for k in args.__dict__:
+            test_log_file.write(k + ':' + str(args.__dict__[k]) + '|')
+        test_log_file.write('\n')
+        test_log_file.flush()
+
         vae_in_channels = 2 # past throughput, downloading time and video chunk sizes
 
         # Load the vae model
