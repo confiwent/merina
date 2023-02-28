@@ -106,9 +106,9 @@ def evaluation(actor_net, vae_net, log_path_ini, test_env, \
             with torch.no_grad():
                 latent = vae_net.get_latent(ob_).detach()
                 prob = actor_net.forward(state_, latent).detach()
-            # action = prob.multinomial(num_samples=1).detach()
-            # bit_rate = int(action.squeeze().cpu().numpy())
-            bit_rate = int(torch.argmax(prob).squeeze().cpu().numpy())
+            action = prob.multinomial(num_samples=1).detach()
+            bit_rate = int(action.squeeze().cpu().numpy())
+            # bit_rate = int(torch.argmax(prob).squeeze().cpu().numpy())
             
             if end_of_video:
                 ob = np.zeros((vae_in_channels, c_len)) 
@@ -189,7 +189,8 @@ def valid(args, env, actor_net, vae_net, epoch, log_file, add_str, summary_dir):
     # torch.save(actor_net.state_dict(), actor_save_path)
     # torch.save(vae_net.state_dict(), vae_save_path)
 
-def test(args, test_model, env, log_file):
+def test(args, test_model, env, log_file, add_str, summary_dir):
+    summary_dir_ = summary_dir
     # Get envs informations
     s_info, s_len, c_len, total_chunk_num, \
             bitrate_versions, rebuffer_penalty, smooth_penalty = env.get_env_info()
@@ -219,3 +220,21 @@ def test(args, test_model, env, log_file):
     evaluation(model_actor, model_vae, log_file, env, \
         s_info, s_len, c_len, total_chunk_num, \
                 bitrate_versions, rebuffer_penalty, smooth_penalty, a_dim, args)
+    
+    rewards = []
+    test_log_folder = summary_dir_
+    test_log_files = os.listdir(test_log_folder)
+    for test_log_file in test_log_files:
+        if add_str in test_log_file:
+            reward = []
+            with open(test_log_folder + test_log_file, 'r') as f:
+                for line in f:
+                    parse = line.split()
+                    try:
+                        reward.append(float(parse[-1]))
+                    except IndexError:
+                        break
+            rewards.append(np.mean(reward[4:]))
+
+    rewards = np.array(rewards)
+    print("mean_QoE: ", np.mean(rewards))
