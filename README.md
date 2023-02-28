@@ -82,12 +82,12 @@ To train a model using the FCC and HSDPA training dataset with the $QoE_{log}$ m
 ```
 python main.py --log
 ```
-The exploration trajectories will be shown in ```./Results/sim/merina/log_record``` and the valid results are in ```./Results/sim/merina/log_test```; In addition, you can monitor the training process using tensorboard, run
+The exploration trajectories will be shown in ```./Results/sim/merina/log_record``` and the __valid results__ are in ```./Results/sim/merina/log_test```; In addition, you can monitor the training process using tensorboard, run
 ```
 tensorboard --logdir=./Results/sim
 ```
 
-Then, wait patiently and mannually interrupt the training (```Ctrl + C``` in the terminal) when the valid results converges. Cross your fingers!!!
+Then, wait patiently and mannually interrupt the training (```Ctrl + C``` in the terminal) when the __valid results__ converges. Cross your fingers!!!
 
 ## Comments
 
