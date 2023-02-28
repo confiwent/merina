@@ -70,6 +70,7 @@ parser = argparse.ArgumentParser(description='MRL-based ABR')
 parser.add_argument('--test', action='store_true', help='Evaluate only')
 parser.add_argument('--log', action='store_true', help='Use logarithmic form QoE metric')
 parser.add_argument('--adp', action='store_true', help='Meta adaptation')
+parser.add_argument('--stocha', action='store_true', help='greedy or stochastic policy')
 parser.add_argument('--name', default='merina', help='the name of result folder')
 parser.add_argument('--latent-dim', nargs='?', const=64, default=64, type=int, help='The dimension of latent space')
 parser.add_argument('--mpc-h', nargs='?', const=5, default=5, type=int, help='The MPC planning horizon')
@@ -152,7 +153,7 @@ def main():
                             1, rebuff_p, SMOOTH_PENALTY, 0)
 
     if args.test:
-        test(args, test_model_, test_env, log_path)
+        test(args, test_model_, test_env, log_path, add_str, log_save_dir)
     else:
         log_dir_path = SUMMARY_DIR
         if args.adp:
@@ -186,8 +187,8 @@ def main():
         torch.save(model_vae_para, model_vae_save_path)
 
         if args.adp:
-            model_actor_save_path = './models/pretrain_policy.model'
-            model_vae_save_path = './pretrain_vae.model'
+            model_actor_save_path = './models/pretrain_policy_log.model'
+            model_vae_save_path = './models/pretrain_vae_log.model'
 
         # RL part
         model_vae_para = torch.load(model_vae_save_path)
