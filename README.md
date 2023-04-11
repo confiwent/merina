@@ -21,7 +21,12 @@ _Anaconda is suggested to be installed to manage the test environments._
 Install PyTorch. Note that the command of PyTorch intallation depends on the actual compute platform of your own computer, and you can choose appropriate version following the [guide page](https://pytorch.org/get-started/locally/). For example, if you have intalled `CUDA 10.2`, you can intall PyTorch with the latest version by running this Command:
 
 ```
-    conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+```
+
+__Or__ you can create a specific environment (_many redundant dependencies will be installed_) just via
+```
+conda env create -f torch.yaml
 ```
 
 ## Overview
