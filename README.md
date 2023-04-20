@@ -62,6 +62,9 @@ Type ```python main.py -h``` for the instruction in the terminal, or read the de
     |--main.py
 ```
 
+## Load the network throughput traces
+The public bandwidth traces are stored in this [repository](https://github.com/confiwent/Real-world-bandwidth-traces). Download and put them in the directory `./envs/traces/`.
+
 ## Runnig an experiment
 To evalute _MERINA_ on the in-distribution throughput traces with the $QoE_{log}$ metric from the paper, run
 
