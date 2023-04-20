@@ -12,7 +12,7 @@ saved_models/*
 # Ignore results files
 Results/*
 
-# envs/traces/*
+envs/traces/*
 
 # Ignore configuration files
 *.vscode
