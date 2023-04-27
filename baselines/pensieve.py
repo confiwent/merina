@@ -28,9 +28,7 @@ SMOOTH_PENALTY = 1
 DEFAULT_QUALITY = 1  # default video quality without agent
 RANDOM_SEED = 42
 RAND_RANGE = 1000
-NN_MODEL = '../saved_models/pensieve/pretrain_linear_reward.ckpt'
-# NN_MODEL = './models/0409/pensieve/log/nn_model_ep_832000.ckpt'
-# NN_MODEL = './models/log_norFcc/nn_model_ep_33000.ckpt'
+NN_MODEL = '../models/baselines/pensieve/pretrain_linear_reward.ckpt'
 
 LOG_FILE_OBE = '../Results/test/lin/oboe/log_test_a3c'
 LOG_FILE_3GP = '../Results/test/lin/3gp/log_test_a3c'

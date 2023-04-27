@@ -28,8 +28,8 @@ DEFAULT_QUALITY = 1  # default video quality without agent
 RANDOM_SEED = 42
 RAND_RANGE = 1000
 # log in format of time_stamp bit_rate buffer_size rebuffer_time chunk_size download_time reward
-NN_MODEL_LIN = '../saved_models/comyco/lin/nn_model_ep_580.ckpt' # for lin 
-NN_MODEL_LOG = '../saved_models/comyco/log/nn_model_ep_680.ckpt' # for log
+NN_MODEL_LIN = '../models/comyco/lin/nn_model_ep_580.ckpt' # for lin 
+NN_MODEL_LOG = '../models/comyco/log/nn_model_ep_680.ckpt' # for log
 
 LOG_FILE_OBE = '../Results/test/lin/oboe/log_test_cmc'
 LOG_FILE_3GP = '../Results/test/lin/3gp/log_test_cmc'
