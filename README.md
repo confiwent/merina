@@ -1,5 +1,13 @@
-# Artifact Appendix for MERINA 
-Code for the paper "Improving Generalization for Neural Adaptive Video Streaming via Meta Reinforcement Learning" - Nuowen Kan et al. (ACM MM22)
+<h1 align="center"> [🔥 ACM MM22 Top Rated Paper] Improving Generalization for Neural Adaptive Video Streaming via Meta Reinforcement Learning </h1>
+
+<p align="center">
+    <a href="https://dl.acm.org/doi/abs/10.1145/3503161.3548331"><img src="https://img.shields.io/badge/MM22-fp2586-blue.svg" alt="Paper"></a>
+    <a href="https://github.com/confiwent/merina"><img src="https://img.shields.io/badge/Github-MERINA-brightgreen?logo=github" alt="Github"></a>
+</p>
+
+by Nuowen Kan, Yuankun Jiang, Chenglin Li, Wenrui Dai, Junni Zou, and Hongkai Xiong at Shanghai Jiao Tong University
+
+This repository is the official Pytorch implementation of MERINA
 
 ## Abstract
 This document illustrates how to obtain the results shown in the paper "Improving Generalization for Neural Adaptive Video Streaming via Meta Reinforcement Learning".
