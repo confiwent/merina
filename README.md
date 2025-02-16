@@ -38,11 +38,14 @@ conda env create -f torch.yaml
 ```
 
 ## Overview
-The main training loop for _MERINA_ can be found in ```main.py```, the trained models are in ```models/``` and the corresponding meta RL algorithms in ```algos/```. Besides, ```envs/``` includes emulator codes which simulate the environment of ABR virtual player. Some of baseline aglorithms are located in ```baselines/```.
+The main training loop for _MERINA_ can be found in ```main.py```, the trained models are in ```models/``` and the corresponding meta RL algorithms in ```algos/```. Besides, ```envs/``` includes emulator codes which simulate the environment of ABR virtual player. Some of baseline algorithms are located in ```baselines/```.
 
 There's quite a bit of documentation in the respective scripts so have a look there for details. 
 
-__Improvements to the codes and methods (including a journal version) are currently underway  and will be finished in a few months. I will update them all in this repository.__
+__Improvements to the codes and methods (including a journal version which is undergoing a major revision) are provided in the repository below:__
+<p align="left">
+    <a href="https://github.com/confiwent/merina-plus"><img src="https://img.shields.io/badge/Github-MERINA_Plus-brightgreen?logo=github" alt="Github"></a>
+</p>
 
 ## Usage
 Type ```python main.py -h``` for the instruction in the terminal, or read the description of ArgumentParser part.
